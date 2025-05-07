@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue chez Château & Millésime{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <!-- Carrousel amélioré -->
+        <div id="carouselExampleFade" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleFade" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{ asset('uploads/carousel/champagne-rose.jpg') }}" class="d-block w-100" alt="Slide 1">
+                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
+                        <h5 class="fw-bold text-light">Champagne Rosé</h5>
+                        <p>Découvrez notre sélection raffinée de champagnes rosés.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('uploads/carousel/2vin.png') }}" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
+                        <h5 class="fw-bold text-light">Vin Rouge</h5>
+                        <p>Le meilleur vin rouge pour accompagner vos repas.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('uploads/carousel/3vin.jpg') }}" class="d-block w-100" alt="Slide 3">
+                    <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
+                        <h5 class="fw-bold text-light">Vin Blanc</h5>
+                        <p>Une sélection unique de vins blancs rafraîchissants.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Précédent</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Suivant</span>
+            </button>
+        </div>
+
+        <h2 class="text-center my-4 fw-bold" style="color: #5a1e1e;">Nos Catégories</h2>
+        <div class="row">
+            {% for category in categories %}
+                <div class="col-md-4 mb-4">
+                    <div class="card text-center shadow-sm" style="border-radius: 10px;">
+                        <img src="{{ asset('uploads/categories/' ~ category.image) }}" class="card-img-top" alt="{{ category.name }}" 
+                             style="height: 200px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                        <div class="card-body" style="background: #f8f1e5;">
+                            <h5 class="card-title fw-bold" style="color: #7a2b2b;">{{ category.name }}</h5>
+                            <a href="{{ path('category_show', {'id': category.id}) }}" class="btn btn-primary" 
+                               style="background-color: #d4af37; border: none; color: #5a1e1e; font-weight: bold;">
+                               Voir les produits
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h2 class="text-center my-4 fw-bold" style="color: #5a1e1e;">Nos Produits</h2>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card text-center shadow-sm" style="border-radius: 10px;">
+                        <img src="{{ asset('uploads/' ~ product.image) }}" class="card-img-top" alt="{{ product.name }}" 
+                             style="height: 300px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                        <div class="card-body" style="background: #fff8e1; border-radius: 10px;">
+                            <h5 class="card-title fw-bold" style="color: #7a2b2b;">{{ product.name }}</h5>
+                            <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-success" 
+                               style="background-color: #5a1e1e; border: none; color: white; font-weight: bold;">
+                               Voir le produit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div class="alert alert-success text-center mt-4" role="alert">
+                Vous êtes connecté en tant que <strong>{{ app.user.email }}</strong>.
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center mt-4" role="alert">
+                Vous n'êtes pas connecté. <a href="{{ path('app_login') }}" class="alert-link">Cliquez ici pour vous connecter.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

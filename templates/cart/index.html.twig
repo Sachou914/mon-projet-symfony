@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier - Château & Millésime{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div class="card shadow-lg p-4" style="background: linear-gradient(135deg, #5a1e1e, #7a2b2b); border-radius: 15px;">
+                <h1 class="text-center text-light">🛒 Votre Panier</h1>
+                
+                {% if cart is empty %}
+                    <p class="text-center text-light fw-bold">Votre panier est vide. 🛍️</p>
+                {% else %}
+                    <div class="p-3" style="background: #f8f1e5; border-radius: 10px;">
+                        <table class="table table-hover text-center">
+                            <thead>
+                                <tr style="background: #d4af37; color: #5a1e1e;">
+                                    <th>Produit</th>
+                                    <th>Prix</th>
+                                    <th>Quantité</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart %}
+                                    <tr>
+                                        <td><strong style="color: #7a2b2b;">{{ item.product.name }}</strong></td>
+                                        <td class="text-dark"><strong>{{ item.product.price }} €</strong></td>
+                                        <td><span class="badge bg-dark p-2">{{ item.quantity }}</span></td>
+                                        <td class="text-success fw-bold">{{ item.product.price * item.quantity }} €</td>
+                                        <td>
+                                            <a href="{{ path('cart_add', {'id': item.product.id}) }}" class="btn btn-sm text-white" style="background: #5a1e1e;">+</a>
+                                            <a href="{{ path('cart_remove', {'id': item.product.id}) }}" class="btn btn-sm text-white" style="background: #d4af37;">-</a>
+                                            <a href="{{ path('cart_delete', {'id': item.product.id}) }}" class="btn btn-sm btn-danger">X</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="text-end">
+                            <h4 class="fw-bold">Sous-total : <span class="text-dark">{{ total }} €</span></h4>
+                            <h5 class="fw-bold text-muted">+ Frais de livraison : <span class="text-primary">15.99 €</span></h5>
+                            <h3 class="fw-bold">Total à payer : <span class="text-danger">{{ total + 15.99 }} €</span></h3>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="{{ path('cart_clear') }}" class="btn btn-danger btn-lg" style="background-color: #5a1e1e; border: none;">🗑️ Vider le panier</a>
+                        </div>
+
+                        <!-- Bouton pour valider la commande -->
+                        <div class="text-center mt-4">
+                            <a href="{{ path('cart_checkout') }}" class="btn btn-success btn-lg" style="background-color: #28a745; border: none;">
+                                ✅ Valider la commande
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center mt-4" role="alert">
+                Vous devez être connecté pour accéder à votre panier. <a href="{{ path('app_login') }}" class="alert-link">Cliquez ici pour vous connecter.</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.name }} | Château & Millésime{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4" style="background-color: #f8f1e5; border-radius: 15px;">
+            <div class="text-center">
+                <h1 class="fw-bold" style="color: #5a1e1e;">{{ category.name }}</h1>
+                <p class="fw-light" style="color: #7a2b2b;">{{ category.description }}</p>
+                
+                {% if category.image %}
+                    <img src="{{ asset('uploads/categories/' ~ category.image) }}" class="img-fluid mb-4" alt="{{ category.name }}" 
+                         style="max-width: 400px; border-radius: 15px; border: 4px solid #d4af37; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+                {% endif %}
+            </div>
+            
+            <h2 class="text-center my-4" style="color: #5a1e1e;">Nos Sélections</h2>
+            
+            {% if category.products is not empty %}
+                <div class="row">
+                    {% for product in category.products %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-sm border-0" style="border-radius: 10px; transition: transform 0.3s;">
+                                <div class="card-body text-center" style="background: #fff7e6; border-radius: 10px;">
+                                    <h5 class="card-title fw-bold" style="color: #5a1e1e;">{{ product.name }}</h5>
+                                    <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-primary mt-2" 
+                                       style="background-color: #d4af37; color: #5a1e1e; border: none; font-weight: bold;">
+                                        Voir le produit
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted text-center">Aucun produit disponible dans cette catégorie.</p>
+            {% endif %}
+            
+            <div class="text-center mt-4">
+                <a href="{{ path('home') }}" class="btn btn-secondary" 
+                   style="background-color: #5a1e1e; color: #f8f1e5; border: none; font-weight: bold;">
+                    Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

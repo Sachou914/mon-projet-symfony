@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Gestion du Catalogue{% endblock %}
+
+{% block body %}
+<style>
+    .admin-container {
+        max-width: 1000px;
+        margin: 2em auto;
+        padding: 20px;
+        background: #f8f1e5; /* Beige clair pour la douceur */
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #5a1e1e; /* Bordeaux pour l'élégance */
+        margin-bottom: 20px;
+    }
+
+    .admin-table {
+        width: 100%;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .admin-table th {
+        background: #d4af37; /* Doré pour le luxe */
+        color: white;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .admin-table td {
+        padding: 15px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .admin-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn {
+        margin: 5px;
+        font-weight: bold;
+    }
+
+    .btn-success {
+        background-color: #5a1e1e; /* Bordeaux pour le bouton */
+        border-color: #5a1e1e;
+    }
+
+    .btn-success:hover {
+        background-color: #7c2a2a; /* Bordeaux plus foncé pour le hover */
+        border-color: #7c2a2a;
+    }
+
+    .btn-warning {
+        background-color: #d4af37; /* Doré pour le bouton */
+        border-color: #d4af37;
+    }
+
+    .btn-warning:hover {
+        background-color: #b68b2d; /* Doré plus foncé pour le hover */
+        border-color: #b68b2d;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c; /* Rouge pour supprimer */
+        border-color: #e74c3c;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b; /* Rouge plus foncé pour le hover */
+        border-color: #c0392b;
+    }
+
+    .table th, .table td {
+        border-top: 1px solid #ddd;
+    }
+</style>
+
+<div class="admin-container">
+    <h1 class="admin-title">🛍️ Gestion du Catalogue</h1>
+
+    <div class="text-right mb-3">
+        <a href="{{ path('admin_product_new') }}" class="btn btn-success btn-lg">➕ Ajouter un produit</a>
+    </div>
+
+    <table class="table admin-table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td><strong>{{ product.name }}</strong></td>
+                    <td class="text-primary"><strong>{{ product.price }} €</strong></td>
+                    <td>
+                        <div class="admin-actions">
+                            <a href="{{ path('admin_product_edit', {'id': product.id}) }}" class="btn btn-warning">✏️ Modifier</a>
+                            <form action="{{ path('admin_product_delete', {'id': product.id}) }}" method="post" style="display:inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Confirmer la suppression de {{ product.name }} ?')">🗑️ Supprimer</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} | Château & Millésime{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4" style="background-color: #f8f1e5; border-radius: 15px;">
+            <h1 class="text-center fw-bold" style="color: #5a1e1e;">{{ product.name }}</h1>
+            
+            <div class="p-3" style="background: white; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+                
+                 {% if product.image %} 
+                    <div class="text-center mb-4">
+                       <img src="{{ asset('uploads/' ~ product.image) }}" class="img-fluid" alt="{{ product.name }}" 
+                             style="max-width: 400px; border-radius: 10px; border: 4px solid #d4af37;">
+                    </div>
+                {% endif %}
+                
+                <p class="fw-bold text-center" style="color: #7a2b2b; font-size: 1.2rem;">{{ product.description }}</p>
+                <p class="text-center" style="font-size: 1.5rem; font-weight: bold; color: #d4af37;">{{ product.price }} €</p>
+                
+                {% for label, messages in app.flashes %}
+                    <div class="alert alert-{{ label }} mt-3">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                
+                <div class="text-center mt-4">
+                    <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-primary btn-lg" 
+                       style="background-color: #5a1e1e; color: #f8f1e5; border: none; font-weight: bold;">
+                        Ajouter au panier
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

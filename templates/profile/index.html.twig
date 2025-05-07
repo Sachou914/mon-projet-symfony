@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4" style="background: linear-gradient(135deg, #5a1e1e, #f8f1e5); border-radius: 15px;">
+            <h2 class="text-center text-white">Mon Profil</h2>
+
+            {% for label, messages in app.flashes %}
+                <div class="alert alert-{{ label }} mt-3">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+            <div class="p-3" style="background: #f8f1e5; border-radius: 10px;">
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.email, {'attr': {'class': 'form-control', 'style': 'border: 2px solid #5a1e1e;'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control', 'style': 'border: 2px solid #5a1e1e;'}}) }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.address, 'Adresse', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.address, {'attr': {'class': 'form-control', 'style': 'border: 2px solid #5a1e1e;'}}) }}
+                    </div>
+                    
+                    <div class="text-center">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary btn-lg', 'style': 'background-color: #d4af37; border: none;'}}) }}
+                    </div>
+                {{ form_end(form) }}
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="{{ path('home') }}" class="btn btn-secondary" style="background-color: #5a1e1e; border: none;">Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
